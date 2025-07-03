@@ -26,14 +26,14 @@
         }
         h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px; /* Уменьшен отступ для верхней ссылки */
         }
         .logo {
             text-align: center;
             margin-bottom: 20px;
         }
         .logo img {
-            max-width: 150px; /* Adjust as needed */
+            max-width: 150px; /* Настройте по необходимости */
             height: auto;
         }
         p {
@@ -47,19 +47,28 @@
         li {
             margin-bottom: 5px;
         }
-        .privacy-link {
+        .privacy-link-top, .privacy-link-bottom {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+            margin-top: 20px;
+            padding-top: 10px;
         }
-        .privacy-link a {
+        .privacy-link-bottom {
+             border-top: 1px solid #eee; /* Граница для нижней ссылки */
+        }
+        .privacy-link-top a, .privacy-link-bottom a {
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
+            display: inline-block; /* Делаем блочным для отступов */
+            padding: 10px 15px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .privacy-link a:hover {
-            text-decoration: underline;
+        .privacy-link-top a:hover, .privacy-link-bottom a:hover {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
         }
         footer {
             text-align: center;
@@ -72,7 +81,13 @@
 <body>
     <div class="container">
         <div class="logo">
+            <!-- Замените на URL вашего логотипа, если есть. Иначе удалите div. -->
+            <!-- <img src="https://example.com/your-logo.png" alt="Логотип Автоматизации Отчетов VK Ads"> -->
             <h1>Автоматизация Отчетов VK Ads</h1>
+        </div>
+
+        <div class="privacy-link-top">
+            <a href="https://selector-ads.ru/privacy-policy.html">Политика конфиденциальности</a>
         </div>
         
         <p>Добро пожаловать на домашнюю страницу приложения **"Автоматизация Отчетов VK Ads"** – вашего незаменимого инструмента для эффективного анализа рекламных кампаний.</p>
@@ -92,17 +107,17 @@
         <p>Мы ценим вашу конфиденциальность. Приложение запрашивает минимально необходимые разрешения Google для обеспечения своей основной функциональности.</p>
         <ul>
             <li>**Доступ к Google Таблицам (`https://www.googleapis.com/auth/spreadsheets`):** Это основная цель приложения. Мы читаем данные для агрегации (из листа "День", "Бюджет") и создаем, записываем, обновляем и форматируем отчеты, формулы и диаграммы в листах ("День/Час", "Отчёт неделя").</li>
-            <li>**Доступ к Google Диску (`https://www.googleapis.com/auth/drive`):** Используется для создания копии шаблонной таблицы на вашем Google Диске при первом запуске приложения. Это необходимо для начала работы.</li>
+            <li>**Доступ к Google Диску (`https://www.googleapis.com/auth/drive`):** Используется для создания копии шаблонной таблицы на вашем Google Диске при первом запуске. Это необходимо для начала работы.</li>
             <li>**Подключение к внешним службам (`https://www.googleapis.com/auth/script.external_request`):** Позволяет приложению безопасно взаимодействовать с API TargetHunter и BotHunter для проверки вашей подписки и отправки персонализированных уведомлений в Telegram.</li>
             <li>**Управление свойствами документа (`https://www.googleapis.com/auth/script.properties`):** Мы используем это для безопасного хранения ваших API-токенов (для VK Ads, TargetHunter) и других настроек автоматизации внутри самой Google Таблицы.</li>
             <li>**Просмотр вашего адреса электронной почты (`https://www.googleapis.com/auth/userinfo.email`):** Ваш email используется только для добавления его в название скопированной таблицы ("Копия Отчет (ваш@email.com)") для удобства идентификации.</li>
         </ul>
         <p>Мы не продаем, не передаем и не используем ваши данные в рекламных целях или для любых других целей, не связанных с прямой функциональностью этого приложения.</p>
 
-        <div class="privacy-link">
+        <div class="privacy-link-bottom">
             <p>Для получения более подробной информации о том, как мы обрабатываем ваши данные, пожалуйста, ознакомьтесь с нашей:</p>
-            <p><a href="./privacy-policy.html">Политика конфиденциальности</a></p>
-            </div>
+            <p><a href="https://selector-ads.ru/privacy-policy.html">Политика конфиденциальности</a></p>
+        </div>
     </div>
     <footer>
         <p>&copy; 2024 Автоматизация Отчетов VK Ads. Все права защищены.</p>
