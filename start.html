@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Настройка Автоматизации Отчетов VK Ads - Шаблон</title>
+<base target="_top">
+
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self'; 
+  script-src 'self' 'unsafe-inline';
+  img-src 'self' data: https://i.postimg.cc; 
+  style-src 'self' 'unsafe-inline';
+  font-src 'self' data:;
+">
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  .container {
+    max-width: 700px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .logo img {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  h1 {
+    color: #0056b3;
+    margin-bottom: 20px;
+  }
+  p {
+    margin-bottom: 15px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left; /* Выравнивание текста метки по левому краю */
+    margin-left: 10%; /* Отступ для меток */
+  }
+  input[type="text"] {
+    width: 80%; /* Уменьшаем ширину для отступов */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center; /* Центрируем текст внутри поля ввода */
+  }
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    margin-bottom: 15px;
+  }
+  button:hover:enabled {
+    background-color: #0056b3;
+  }
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  .template-link {
+    background-color: #28a745;
+    text-decoration: none;
+    display: inline-block; /* чтобы применились padding и margin */
+    margin-top: 10px;
+  }
+  .template-link:hover {
+    background-color: #218838;
+    color: white;
+  }
+  #status {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    color: #555;
+    min-height: 20px;
+    text-align: center;
+  }
+  .info-block {
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .info-block ol {
+    padding-left: 20px;
+  }
+  .info-block li {
+    margin-bottom: 10px;
+  }
+</style>
+
+<script type="text/javascript">
+  // ВАЖНО: ЗАМЕНИТЕ НА РЕАЛЬНЫЙ URL ВАШЕГО ПУБЛИЧНОГО ШАБЛОНА
+  // Убедитесь, что шаблон доступен для просмотра всем по ссылке!
+  const TEMPLATE_SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/ВАШ_ID_ШАБЛОНА/edit?usp=sharing'; 
+
+  // ВАЖНО: Замените ЭТОТ URL на URL вашего развернутого веб-приложения Apps Script
+  // Выглядит как: https://script.google.com/macros/s/AKfycbu.../exec
+  // В Apps Script Project -> Deploy -> New deployment -> Select Type: Web App
+  // Execute as: Me, Who has access: Anyone
+  const APPS_SCRIPT_WEB_APP_URL = 'ВАШ_URL_ВЕБ_ПРИЛОЖЕНИЯ_APPS_SCRIPT'; 
+
+  function openTemplate() {
+    window.open(TEMPLATE_SPREADSHEET_URL, '_blank');
+  }
+
+  async function registerSpreadsheet() {
+    var statusDiv = document.getElementById('status');
+    var userIdInput = document.getElementById('userIdInput');
+    var spreadsheetUrlInput = document.getElementById('spreadsheetUrlInput');
+
+    var userId = userIdInput.value.trim();
+    var spreadsheetUrl = spreadsheetUrlInput.value.trim();
+
+    if (!userId || !spreadsheetUrl) {
+      statusDiv.innerText = 'Пожалуйста, заполните оба поля: ID чат-бота и URL вашей копии таблицы.';
+      statusDiv.style.color = '#dc3545';
+      return;
+    }
+
+    if (!spreadsheetUrl.startsWith('https://docs.google.com/spreadsheets/d/')) {
+        statusDiv.innerText = 'Пожалуйста, введите корректный URL Google Таблицы.';
+        statusDiv.style.color = '#dc3545';
+        return;
+    }
+
+    // Извлекаем ID таблицы из URL
+    const match = spreadsheetUrl.match(/\/d\/([a-zA-Z0-9_-]+)\//);
+    const spreadsheetId = match ? match[1] : null;
+
+    if (!spreadsheetId) {
+        statusDiv.innerText = 'Не удалось извлечь ID таблицы из URL. Проверьте правильность ссылки.';
+        statusDiv.style.color = '#dc3545';
+        return;
+    }
+
+    document.getElementById('registerButton').disabled = true;
+    statusDiv.innerText = 'Регистрируем таблицу и настраиваем ее...';
+    statusDiv.style.color = '#555';
+
+    console.log("Calling Apps Script to register spreadsheet:", { userId, spreadsheetId, spreadsheetUrl });
+
+    try {
+      const response = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          function: 'registerUserSpreadsheet', // Новая функция в Apps Script
+          userId: userId,
+          spreadsheetId: spreadsheetId,
+          spreadsheetUrl: spreadsheetUrl
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+      
+      statusDiv.innerHTML = '✅ Таблица успешно зарегистрирована и настроена! Вы можете закрыть эту страницу.';
+      statusDiv.style.color = '#28a745';
+      userIdInput.value = '';
+      spreadsheetUrlInput.value = '';
+      document.getElementById('registerButton').disabled = false;
+
+    } catch (error) {
+      statusDiv.innerText = '❌ Произошла ошибка при регистрации: ' + error.message;
+      statusDiv.style.color = '#dc3545';
+      document.getElementById('registerButton').disabled = false;
+      console.error("Ошибка при регистрации таблицы:", error);
+    }
+  }
+</script>
+
+</head>
+<body>
+<div class="container">
+  <img src="https://i.postimg.cc/YS35Wp8y/LOGO.png" alt="Логотип" style="max-width: 100%; height: auto; display: block; margin: 0 auto 20px;">
+  <h1>Настройка отчетов VK Ads</h1>
+  <p>Привет! Пожалуйста, следуйте инструкциям, чтобы получить шаблон таблицы и настроить его для себя.</p>
+
+  <div class="info-block">
+    <p>Для начала работы выполните следующие шаги:</p>
+    <ol>
+      <li>Введите свой **ID от чат-бота** в первое поле ниже.</li>
+      <li>Нажмите на кнопку **"ОТКРЫТЬ ШАБЛОН ТАБЛИЦЫ"**. Шаблон откроется в новой вкладке.</li>
+      <li>В открывшейся таблице выберите в меню: **Файл > Создать копию** (File > Make a copy).</li>
+      <li>После того, как вы создадите копию на своем Google Диске, **скопируйте URL этой новой копии** из адресной строки браузера.</li>
+      <li>Вставьте скопированный URL в поле **"URL вашей копии таблицы"** на этой странице.</li>
+      <li>Нажмите кнопку **"ЗАРЕГИСТРИРОВАТЬ ТАБЛИЦУ И НАСТРОИТЬ"**.</li>
+    </ol>
+  </div>
+
+  <label for="userIdInput">Ваш ID от чат-бота:</label>
+  <input type="text" id="userIdInput" placeholder="Например, 11984888">
+
+  <button class="template-link" onclick="openTemplate()">ОТКРЫТЬ ШАБЛОН ТАБЛИЦЫ</button>
+
+  <label for="spreadsheetUrlInput" style="margin-top: 20px;">URL вашей копии таблицы:</label>
+  <input type="text" id="spreadsheetUrlInput" placeholder="Например, https://docs.google.com/spreadsheets/d/abc123xyz...">
+
+  <button id="registerButton" onclick="registerSpreadsheet()">ЗАРЕГИСТРИРОВАТЬ ТАБЛИЦУ И НАСТРОИТЬ</button>
+
+  <div id="status"></div>
+</div>
+
+</body>
+</html>
