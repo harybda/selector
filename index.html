@@ -26,15 +26,15 @@
         }
         h1 {
             text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold !important;
+            margin-bottom: 20px; /* Уменьшен отступ для верхней ссылки */
+            font-weight: bold !important; /* Явно устанавливаем жирный шрифт для h1 с !important */
         }
         .logo {
             text-align: center;
             margin-bottom: 20px;
         }
         .logo img {
-            max-width: 150px;
+            max-width: 150px; /* Настройте по необходимости */
             height: auto;
         }
         p {
@@ -54,28 +54,22 @@
             padding-top: 10px;
         }
         .privacy-link-bottom {
-             border-top: 1px solid #eee;
+             border-top: 1px solid #eee; /* Граница для нижней ссылки */
         }
-        .privacy-link-top a, .privacy-link-bottom a, .start-button { /* Добавлен .start-button */
+        .privacy-link-top a, .privacy-link-bottom a {
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
-            display: inline-block;
+            display: inline-block; /* Делаем блочным для отступов */
             padding: 10px 15px;
             border: 1px solid #007bff;
             border-radius: 5px;
             transition: background-color 0.3s, color 0.3s;
-            cursor: pointer; /* Добавлен курсор для кнопки */
         }
-        .privacy-link-top a:hover, .privacy-link-bottom a:hover, .start-button:hover { /* Добавлен .start-button */
+        .privacy-link-top a:hover, .privacy-link-bottom a:hover {
             background-color: #007bff;
             color: #fff;
             text-decoration: none;
-        }
-        .button-section { /* Новый стиль для секции с кнопкой */
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 30px;
         }
         footer {
             text-align: center;
@@ -88,6 +82,7 @@
 <body>
     <div class="container">
         <div class="logo">
+            <!-- Замените на URL вашего логотипа, если есть. Иначе удалите div. -->
             <img src="https://i.postimg.cc/YS35Wp8y/LOGO.png" alt="Логотип Автоматизации Отчетов VK Ads">
             <h1>Автоматизация Отчетов VK Ads</h1>
         </div>
@@ -120,10 +115,6 @@
         </ul>
         <p>Мы не продаем, не передаем и не используем ваши данные в рекламных целях или для любых других целей, не связанных с прямой функциональностью этого приложения.</p>
 
-        <div class="button-section">
-            <p>Нажмите кнопку ниже, чтобы начать работу с приложением и создать свою первую таблицу отчетов:</p>
-            <button class="start-button" onclick="location.href='app.html'">НАЧАТЬ РАБОТУ С ПРИЛОЖЕНИЕМ</button>
-        </div>
         <div class="privacy-link-bottom">
             <p>Для получения более подробной информации о том, как мы обрабатываем ваши данные, пожалуйста, ознакомьтесь с нашей:</p>
             <p><a href="https://selector-ads.ru/privacy-policy.html">Политика конфиденциальности</a></p>
